@@ -1,35 +1,293 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="./assets/img/4geeks.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello Rigo with Vanilla.js</title>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedro - Páginas y Bots</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #f9f9f9;
+    }
 
-    <!-- Fontawesome is our recomended library for icons -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <!-- Write your HTML code here, you can delete everything withing the body tags -->
-    <div class="container-fluid text-center">
-      <h1 class="mt-5">Hello Rigo!</h1>
-      <img src="./assets/img/rigo-baby.jpg" />
-      <p class="alert alert-warning mt-4">
-        If this text is <b>not</b> centered and <b>yellow</b>, you probably have
-        an error
-      </p>
-      <div class="fixed-bottom p-4">
-        Made with ❤️ by
-        <a href="https://www.4geeksacademy.com">4Geeks Academy</a>
-      </div>
+    header {
+      background-color: #1d2b3a;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+    }
+
+    .boton {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .boton:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    nav {
+      background-color: #1d2b3a;
+      color: white;
+      padding: 1rem;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu ul {
+      list-style: none;
+      display: none;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu ul li {
+      margin: 1rem 0;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hamburguesa {
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    .contenido {
+      padding: 2rem 1rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .botones-contacto {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .boton-contacto {
+      display: inline-block;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .boton-contacto:hover {
+      transform: scale(1.08);
+    }
+
+    .boton-contacto.telefono {
+      background-color: #007bff;
+    }
+
+    .boton-contacto.telefono:hover {
+      background-color: #0056b3;
+    }
+
+    .boton-contacto.whatsapp {
+      background-color: #25D366;
+    }
+
+    .boton-contacto.whatsapp:hover {
+      background-color: #1ebe5d;
+    }
+
+    @media(min-width: 768px) {
+      .menu ul {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+      }
+
+      .hamburguesa {
+        display: none;
+      }
+    }
+
+    .detalle-contacto {
+      margin-top: 2rem;
+    }
+
+    .detalle-contacto h3 {
+      margin-bottom: 0.3rem;
+      color: #1d2b3a;
+    }
+
+    .detalle-contacto p {
+      margin-top: 0;
+    }
+
+    #modal-contacto, #modal-servicios {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .contenido-modal {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .contenido-modal h2 {
+      margin-top: 0;
+    }
+
+    .contenido-modal button {
+      margin-top: 1.5rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="menu">
+      <div class="hamburguesa" onclick="toggleMenu()">☰</div>
+      <ul id="nav-links">
+        <li><a href="#" onclick="mostrarServicios()">Nuestros servicios</a></li>
+        <li><a href="#" onclick="mostrarContacto()">Contáctanos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header id="inicio">
+    <h1>Transformo ideas en ventas<br>con páginas, textos y bots inteligentes</h1>
+    <p>Webs que venden, asistentes con IA y copy que conecta.<br>Todo hecho por mí, para ti.</p>
+    <button class="boton">Quiero mejorar mis ventas</button>
+  </header>
+
+  <section class="contenido" id="contacto">
+    <h2>¿Quieres algo así para tu negocio?</h2>
+    <p>Déjame explicarte lo que obtienes:</p>
+
+    <div class="detalle-contacto">
+      <h3>✔️ Página web que convierte visitantes en clientes</h3>
+      <p>No es solo diseño bonito. Es estructura, llamada a la acción, velocidad y confianza. Todo optimizado para que quien entra... actúe.</p>
     </div>
 
-    <!-- Do not delete this script tag, this is what connects your HTML with the Javascript code -->
-    <script type="module" src="/app.js"></script>
-  </body>
+    <div class="detalle-contacto">
+      <h3>📝 Copywriting persuasivo que habla por ti</h3>
+      <p>Los textos tienen una misión: captar atención, conectar y motivar. Yo me encargo de que hablen por ti y convenzan por ti.</p>
+    </div>
+
+    <div class="detalle-contacto">
+      <h3>🤖 Asistente IA que responde 24/7</h3>
+      <p>En WhatsApp o en tu web, un bot que atiende dudas, toma reservas, capta leads... y trabaja aunque tú estés durmiendo.</p>
+    </div>
+
+    <div class="detalle-contacto">
+      <h3>📄 Te paso una propuesta clara</h3>
+      <p>Te doy una propuesta visual, con pasos, tiempos y precio. Sin sorpresas ni vueltas.</p>
+    </div>
+
+    <div class="detalle-contacto">
+      <h3>🚀 En pocos días tienes todo funcionando</h3>
+      <p>Trabajo ágil. Nada de esperar semanas. En unos días tu negocio ya tiene presencia digital y automatización funcionando.</p>
+    </div>
+
+    <h2>Contáctame ahora:</h2>
+    <p>Puedes escribirme o llamarme directamente:</p>
+    <div class="botones-contacto">
+      <a class="boton-contacto telefono" href="tel:+34621327909">📞 Llamar al +34 621 327 909</a>
+      <a class="boton-contacto whatsapp" href="https://wa.me/34621327909" target="_blank">💬 Escríbeme por WhatsApp</a>
+    </div>
+  </section>
+
+  <div id="modal-contacto">
+    <div class="contenido-modal">
+      <h2>¿Hablamos?</h2>
+      <p>📞 <a href="tel:+34621327909">+34 621 327 909</a></p>
+      <p>📧 <a href="mailto:collpayeraspedro@gmail.com">collpayeraspedro@gmail.com</a></p>
+      <button onclick="cerrarContacto()">Cerrar</button>
+    </div>
+  </div>
+
+  <div id="modal-servicios">
+    <div class="contenido-modal">
+      <h2>Servicios que impulsan tu negocio</h2>
+      <ul style="text-align: left; padding-left: 1.2rem;">
+        <li>✅ <strong>Webs que venden</strong> – diseño claro, rápido y enfocado en convertir.</li>
+        <li>✅ <strong>Chatbots 24/7</strong> – atienden por WhatsApp o en tu web, incluso mientras dormís.</li>
+        <li>✅ <strong>Textos que venden</strong> – copywriting que conecta, convence y convierte.</li>
+      </ul>
+      <button onclick="cerrarServicios()">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+        navLinks.style.flexDirection = 'column';
+      }
+    }
+
+    function mostrarContacto() {
+      document.getElementById('modal-contacto').style.display = 'flex';
+    }
+
+    function cerrarContacto() {
+      document.getElementById('modal-contacto').style.display = 'none';
+    }
+
+    function mostrarServicios() {
+      document.getElementById('modal-servicios').style.display = 'flex';
+    }
+
+    function cerrarServicios() {
+      document.getElementById('modal-servicios').style.display = 'none';
+    }
+  </script>
+</body>
 </html>
